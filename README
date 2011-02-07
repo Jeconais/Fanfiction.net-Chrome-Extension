@@ -8,22 +8,25 @@ It was used as a way of teaching myself how to use javascript properly.
 
 What does it do?
 
-All pages
-Remove the dynamic navigation bar that appears and vanishes.
+All pages:
+    Remove the dynamic navigation bar that appears and vanishes.
 
-Bio pages
-Start with Author Bio hidden
-Remember previos tab selection (will automatically reset you to the tab you were on last, for this author)
-Change updated/posted dates to a readable style - including colour coding for stories updated yesterday and today.
-Add Words per Chapter, Reviews per Chapter
-Reimplemented sorting with WPC and RPC as sortable options
-Colour coded current order
-Remember current order
+Bio pages:
+    Start with Author Bio hidden
+    Remember previos tab selection (will automatically reset you to the tab you were on last, for this author)
+    Change updated/posted dates to a readable style - including colour coding for stories updated yesterday and today.
+    Add Words per Chapter, Reviews per Chapter
+    Reimplemented sorting with WPC and RPC as sortable options
+    Colour coded current order
+    Remember current order
 
-Community list pages
-Add reviews per chapter
-Change updated/posted dates to a readable style
-Change updated/posted dates to a readable style - including colour coding for stories updated yesterday and today.
+Community list pages:
+    Add reviews per chapter
+    Change updated/posted dates to a readable style
+    Change updated/posted dates to a readable style - including colour coding for stories updated yesterday and today.
+
+Story Pages:
+    Align all stories left
 
 What doesn't it do
 
