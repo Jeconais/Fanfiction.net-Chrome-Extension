@@ -1,0 +1,35 @@
+Fanfiction.net
+
+Introduction
+
+This extension was started as a way of fixing the American dates, and quickly exploded into a load of other features.
+
+It was used as a way of teaching myself how to use javascript properly.
+
+What does it do?
+
+All pages
+Remove the dynamic navigation bar that appears and vanishes.
+
+Bio pages
+Start with Author Bio hidden
+Remember previos tab selection (will automatically reset you to the tab you were on last, for this author)
+Change updated/posted dates to a readable style - including colour coding for stories updated yesterday and today.
+Add Words per Chapter, Reviews per Chapter
+Reimplemented sorting with WPC and RPC as sortable options
+Colour coded current order
+Remember current order
+
+Community list pages
+Add reviews per chapter
+Change updated/posted dates to a readable style
+Change updated/posted dates to a readable style - including colour coding for stories updated yesterday and today.
+
+What doesn't it do
+
+Touch the adverts.
+Change the dates on the story pages.
+
+What are the potential problems?
+
+Most of the code relies on Fanfiction.net's layout not changing.  If they change certain things, the extension will fail.
