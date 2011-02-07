@@ -1,4 +1,15 @@
-// execution part
+/*!
+ * Fanfiction.net Extension v@VERSION
+ * https://github.com/Jeconais/Fanfiction.net-Chrome-Extension
+ *
+ * Copyright 2011, Tim Joy
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * Date: @DATE
+ */
+ 
+ // execution part
 
 // first, remove all the sub menu items
 var menuItems = ['menu-home-c',

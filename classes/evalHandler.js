@@ -1,13 +1,32 @@
+/*!
+ * Fanfiction.net Extension v@VERSION
+ * https://github.com/Jeconais/Fanfiction.net-Chrome-Extension
+ *
+ * Copyright 2011, Tim Joy
+ * Licensed under the MIT license.
+ *
+ * Date: @DATE
+ */
+
+
+/**
+ * In order to get the story data, we need to eval() the inline javascript
+ * @param storySorter h
+ * @param string name 
+ */
 function evalHandler(h, name)
 {
     this.handler = h;
     this.name = name;
 }
-
-evalHandler.prototype.sort = function(script)
+/**
+ * Take the result of a jquery .each, and run the containing javascript
+ * @param Element el
+ */
+evalHandler.prototype.sort = function(el)
 {
     // get the script
-    scr = $(script).html();
+    scr = $(el).html();
 
     // replace the function call with a reference to this class
     scr = scr.replace(/story_set/g, this.name+".buildStory");
@@ -17,16 +36,20 @@ evalHandler.prototype.sort = function(script)
 
 }
 
-// function to deal with an eval() of ff.net inline js
+/**
+ * Build a story from the data eval'd.  The variables supplied are taken from the ff.net pages
+ * 
+ */
 evalHandler.prototype.buildStory = function(a, stitle,stitleu,summary,userid,penname,pennameu,
                                             category,storyid,genreid,subgenreid,datesubmit,
                                             dateupdate,ratingtimes,chapters,languageid,
                                             censorid,wordcount,statusid,verse,crossover,chars)
 {
-
+	// create an empty story object
     story = {};
 
-    story.title = ''+stitle;
+	// populate he data
+    story.title = stitle;
     story.safe_title = stitleu;
     story.desc = summary;
     story.author_id = userid;
@@ -53,6 +76,6 @@ evalHandler.prototype.buildStory = function(a, stitle,stitleu,summary,userid,pen
     // build a proper story object
     s = new Story(story);
 
-    // handle it
+    // Add it to the indexes for this story sorter
     this.handler.buildStoryIndexes(s);
 }

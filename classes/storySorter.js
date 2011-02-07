@@ -1,3 +1,17 @@
+/*!
+ * Fanfiction.net Extension v@VERSION
+ * https://github.com/Jeconais/Fanfiction.net-Chrome-Extension
+ *
+ * Copyright 2011, Tim Joy
+ * Licensed under the MIT license.
+ *
+ * Date: @DATE
+ */
+ 
+ /**
+  * Hold references to all stories, and sort them on command
+  * @param string targetDiv
+  */
 function storySorter(targetDiv)
 {
     // story holder
@@ -13,12 +27,12 @@ function storySorter(targetDiv)
     this.sortCategories = {};
     this.sortRPC = {};
     this.sortWPC = {};
-    this.total = 0;
+    this.totals = 0;
 
     // where we are on the list
     this.currentLimit = 0;
 
-    // variable
+    // Are we doing favourite stories or otherwise
     if (targetDiv === 'fs')
     {
         this.withAuthor = true;
@@ -27,17 +41,19 @@ function storySorter(targetDiv)
     {
         this.withAuthor = false;
     }
+    
+    // save the target we're aiming for
     this.targetDiv = targetDiv;
 }
 
 /**
  * Handle a story object and record it as a sortable array, and as a div of a story
- * for fast gabdluing
+ * for fast calculating
+ * @param Story story
  */
 storySorter.prototype.buildStoryIndexes = function(story)
 {
     // save one story container with the story id
-
     this.stories[story.data.id] = story.build(this.withAuthor);
 
     // store the sort varaibles
@@ -54,21 +70,32 @@ storySorter.prototype.buildStoryIndexes = function(story)
 
     this.totals++;
 }
-
-storySorter.prototype.setSortVal = function(obj, value, refId)
+/**
+ * Set the indexes, with the storyId, the value, and the relevant index
+ * @param Object index
+ * @param Mixed value
+ * @param int storyId
+ */
+storySorter.prototype.setSortVal = function(index, value, storyId)
 {
     // if this is the first time for a value in this object, we assign it an emppty
     // array.  This is because several items might have the same index.
-    if (typeof obj[value] == 'undefined')
+    if (typeof index[value] == 'undefined')
     {
-        obj[value] = [];
+        index[value] = [];
     }
 
     // move to a local variable, for readability
-    c = obj[value];
+    c = index[value];
     // assign a new array to it
-    c[c.length] = refId;
+    c[c.length] = storyId;
 }
+
+/**
+ * General sorter, to create a standard list for first 20 items
+ * called by a tab bging clicked
+ * @param string sType
+ */
 storySorter.prototype.sortList = function (sType)
 {
     target = $('#'+this.targetDiv+'_inside');
@@ -79,6 +106,9 @@ storySorter.prototype.sortList = function (sType)
 
     this.sort(sType, 0, 20);
 }
+/**
+ * Perform a sort and append the result to the existing code
+ */
 storySorter.prototype.sort = function (sType, start, limit)
 {
     

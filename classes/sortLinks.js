@@ -1,3 +1,13 @@
+/*!
+ * Fanfiction.net Extension v@VERSION
+ * https://github.com/Jeconais/Fanfiction.net-Chrome-Extension
+ *
+ * Copyright 2011, Tim Joy
+ * Licensed under the MIT license.
+ *
+ * Date: @DATE
+ */
+ 
 function sortLinks(target, handler)
 {
     this.type = target;
