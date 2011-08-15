@@ -9,22 +9,16 @@
  * Date: @DATE
  */
  
- // execution part
+ 
+// add the extension config link
+config.addConfigLink();
 
 // first, remove all the sub menu items
-var menuItems = ['menu-home-c',
-                 'menu-justin-c',
-                 'menu-community-c',
-                 'menu-forum-c',
-                 'menu-beta-c',
-                 'menu-dictionary-c',
-                 'menu-search-c',
-                 'menu-extra-c'];
-
-for (i=0; i < menuItems.length; i++)
+if(config.get('hideSearch'))
 {
-    $('#'+menuItems[i]).remove();
+    site.hideDropIn();
 }
+
 
 // get the URL type
 URL = new urlParse;
@@ -33,13 +27,23 @@ switch(URL.type)
 {
 // the only thing of note we can do (easily) is to align all the text left
 case 'story':
-    $('#storytext p').css('text-align','left');
+    if(config.get('alignRight'))
+    {
+        $('#storytext p').css('text-align','left');
+    }
+    if(config.get('hideShare'))
+    {
+        $('#storytext div[class="a2a_kit a2a_default_style"]').remove();
+    }
     break;
 case 'profile':
 
     // replace the bio with our own toggle
     // and set it to closed by default
-    profile.replaceBio();
+    if(config.get('startWithBioClosed'))
+    {
+        profile.replaceBio();
+    }
 
     // reach the script tags, and re-eval the javascript stories
     var favouriteStories = new storySorter('fs');
@@ -60,8 +64,15 @@ case 'profile':
     profile.replaceTabs();
 
     // select the preferred tab
-    profile.selectTab();
-
+    if (config.get('rememberTab'))
+    {
+        profile.selectTab();
+    }
+    else // set the default tab to prefil things
+    {
+        $('#l_st').click();
+    }
+            
     // initiate the scrolling
     profile.initiateScroll();
     break;

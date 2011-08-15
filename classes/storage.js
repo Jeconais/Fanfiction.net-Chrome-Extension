@@ -7,15 +7,16 @@
  *
  * Date: @DATE
  */
-function storageHandler()
+function storageHandler(config)
 {
-
+    this.isConfig = config;
 }
 
 storageHandler.prototype.setItem = function(key, value)
 {
     key = this.getKey(key);
     localStorage[key] = value;
+    
 };
 
 storageHandler.prototype.removeItem = function (key)
@@ -35,12 +36,16 @@ storageHandler.prototype.getItem = function(key)
     {
         return null;
     }
-
+    
     return item;
 };
 storageHandler.prototype.getKey = function(key)
 {
-    if (URL.type === 'profile')
+    if (this.isConfig)
+    {
+        key = 'config_'+key;
+    }
+    else if (URL.type === 'profile')
     {
         key = "author_"+URL.authorId+key;
     }
@@ -50,6 +55,10 @@ storageHandler.prototype.getKey = function(key)
     }
 
     return key;
+}
+storageHandler.prototype.getConfig = function()
+{
+    return this.isConfig;
 }
 
 storage = new storageHandler();

@@ -34,6 +34,8 @@ evalHandler.prototype.sort = function(el)
     // execute it
     eval(scr);
 
+    // remove it from memory
+    $(el).remove();
 }
 
 /**

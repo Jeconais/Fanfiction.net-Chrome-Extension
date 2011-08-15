@@ -147,12 +147,12 @@ var profile = {
                 profileTab = storage.getItem('profileTab');
                 if (profileTab === 'favourite_stories')
                 {
-                    console.log('favourite_stories');
+                    
                     favouriteStories.updateScroll();
                 }
                 else if (profileTab === 'stories')
                 {
-                    console.log('stories');
+                    
                     authorStories.updateScroll();
                 }
                 this.scrollLoadInProgress = false;

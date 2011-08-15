@@ -1,6 +1,6 @@
 {
     "name": "fanfiction.net enhancer",
-    "version": "2.0",
+    "version": "2.1",
     "description": "Make ff.net a little easier to use.",
     "permissions": ["http://www.fanfiction.net/"],
     "content_scripts": 
@@ -14,9 +14,12 @@
                "classes/storySorter.js",
                "classes/sortLinks.js",
                "classes/profile.js",
+               "classes/config.js",
+               "classes/runOfSite.js",
                "init.js"
                ],
-        "run-at": ["document_end"]
+        "css": ["css/config.css"],       
+        "run-at": ["document_idle"]
     }
     ]
 }

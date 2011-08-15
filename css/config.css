@@ -1,0 +1,44 @@
+.checkHeader
+{
+    padding: 10px;
+    text-align: center;
+}
+
+.checklist {
+    
+    list-style: none;
+    
+}
+
+.checklist, .checklist li {  }
+
+.checklist label {
+    
+}
+
+.checklist label:hover { background: #777; color: #fff; }
+.checkTop, .checkTop a
+{
+    background-color: #333399;/*486CAE;*/
+    color: #ffffff;
+    font-weight: bold;
+    height: 1.3em;
+    padding: 5px;
+    border-bottom: 2px solid #000000;
+    border-top: 1px solid #78A3F2;
+    border-left: 1px solid #78A3F2;
+    border-right: 1px solid #204095;
+    text-align: right;
+}
+.checkModalBackground
+{
+    filter: Alpha(Opacity=40); -moz-opacity:0.4; opacity: 0.4;
+    width: 100%; 
+    height: 100%; 
+    background-color: #fff;
+    position: absolute;
+    z-index: 500;
+    top: 0px; 
+    left: 0px;
+}
+	
