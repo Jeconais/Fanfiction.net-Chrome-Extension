@@ -123,7 +123,15 @@ Story.prototype.buildDateString = function(time, matchText)
     tDate.setMilliseconds(0);
 
     // get yesterday as a time stamp
-    var yDate = tDate.getTime() - 86400000;
+    var yesterday = tDate.getTime() - 86400000;
+    var yDate = new Date();
+    yDate.setTime(yesterday);
+    yDate.setHours(0);
+    yDate.setMinutes(0);
+    yDate.setSeconds(0);
+    yDate.setMilliseconds(0);
+
+    
 
     // get the date Posted
     var matchDate = new Date();
@@ -142,7 +150,7 @@ Story.prototype.buildDateString = function(time, matchText)
 
     
     // see if it was posted yesterday
-    if (matchDate.getTime() === yDate)
+    if (matchDate.toDateString() === yDate.toDateString())
     {
         return [matchText+': Yesterday', storyData.yesterdayCss];
     }
