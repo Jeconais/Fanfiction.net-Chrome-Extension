@@ -7,7 +7,7 @@
  *
  * Date: @DATE
  */
- 
+
  /**
   * Hold references to all stories, and sort them on command
   * @param string targetDiv
@@ -41,7 +41,7 @@ function storySorter(targetDiv)
     {
         this.withAuthor = false;
     }
-    
+
     // save the target we're aiming for
     this.targetDiv = targetDiv;
 }
@@ -69,7 +69,7 @@ storySorter.prototype.buildStoryIndexes = function(story)
     this.setSortVal(this.sortWPC,          story.data.wpc,               story.data.id);
 
     this.totals++;
-}
+};
 /**
  * Set the indexes, with the storyId, the value, and the relevant index
  * @param Object index
@@ -89,7 +89,7 @@ storySorter.prototype.setSortVal = function(index, value, storyId)
     c = index[value];
     // assign a new array to it
     c[c.length] = storyId;
-}
+};
 
 /**
  * General sorter, to create a standard list for first 20 items
@@ -105,13 +105,13 @@ storySorter.prototype.sortList = function (sType)
     this.currentLimit = 20;
 
     this.sort(sType, 0, 20);
-}
+};
 /**
  * Perform a sort and append the result to the existing code
  */
 storySorter.prototype.sort = function (sType, start, limit)
 {
-    
+
     // remember what we've clicked
     storage.setItem(this.targetDiv, sType);
 
@@ -173,8 +173,8 @@ storySorter.prototype.sort = function (sType, start, limit)
         break;
     }
     sortedArray = this.sortArrayByKey(arr, reverse, start, limit);
-    
-    
+
+
     stories = [];
     for (i = 0; i < sortedArray.length; i++)
     {
@@ -182,7 +182,7 @@ storySorter.prototype.sort = function (sType, start, limit)
         k = i + 1 + start;
         // make a copy of it
         d = this.stories[key];
-              
+
         story = $(d).clone();
 
         // get out the data and replace the varcnt variable
@@ -192,7 +192,7 @@ storySorter.prototype.sort = function (sType, start, limit)
         story.html(html);
 
         tempContainer = $('<div></div>').append(story);
-        
+
         stories[stories.length] = tempContainer.html();
 
         k++;
@@ -207,14 +207,14 @@ storySorter.prototype.sortArrayByKey = function(arr, reverse, start, limit)
     var keys = [];
     // get the keys
     var numeric = false;
-    for (key in arr)
+    for (var key in arr)
     {
         if (this.isNumeric(key))
         {
-            key = parseInt(key);
+            key = parseInt(key, 10);
             numeric = true;
         }
-        
+
         keys.push(key);
     }
 
@@ -223,7 +223,7 @@ storySorter.prototype.sortArrayByKey = function(arr, reverse, start, limit)
     // so we sort numerically
     if (numeric)
     {
-        keys.sort( function (a, b) {return a - b});
+        keys.sort( function (a, b) {return a - b;});
     }
     else
     {
@@ -248,18 +248,18 @@ storySorter.prototype.sortArrayByKey = function(arr, reverse, start, limit)
             id = ids[key];
             storyIds.push(id);
         }
-        
+
     }
-    
+
     // only get what we need
     storyIds = storyIds.slice(start, start+limit);
-    
+
     return storyIds;
 };
 storySorter.prototype.sortDefault = function()
 {
     this.sortList('updated');
-}
+};
 storySorter.prototype.updateScroll = function()
 {
     offset = this.currentLimit;
@@ -271,8 +271,8 @@ storySorter.prototype.updateScroll = function()
     type = storage.getItem(this.targetDiv);
 
     this.sort(type, offset, limit);
-}
+};
 storySorter.prototype.isNumeric = function(str)
 {
     return !isNaN(parseFloat(str)) && isFinite(str);
-}
+};

@@ -8,47 +8,30 @@
  *
  * Date: @DATE
  */
- 
- 
+
+
 // add the extension config link
 config.addConfigLink();
 
-// first, remove all the sub menu items
-if(config.get('hideSearch'))
-{
-    site.hideDropIn();
-}
-
 
 // get the URL type
-URL = new urlParse;
+URL = new urlParse();
 
 switch(URL.type)
 {
 // the only thing of note we can do (easily) is to align all the text left
 case 'story':
-    if(config.get('alignRight'))
+    if(config.get('alignLeft'))
     {
         $('#storytext p').css('text-align','left');
     }
-    if(config.get('hideShare'))
-    {
-        $('#storytext div[class="a2a_kit a2a_default_style"]').remove();
-    }
     break;
 case 'profile':
-
-    // replace the bio with our own toggle
-    // and set it to closed by default
-    if(config.get('startWithBioClosed'))
-    {
-        profile.replaceBio();
-    }
-
     // reach the script tags, and re-eval the javascript stories
     var favouriteStories = new storySorter('fs');
     var authorStories = new storySorter('st');
-        
+
+    profile.replaceBio();
 
     // generate the lists of stories
     profile.generateStoryLists();
@@ -72,16 +55,14 @@ case 'profile':
     {
         $('#l_st').click();
     }
-            
+
     // initiate the scrolling
     profile.initiateScroll();
     break;
 // we're on a list page, so try and set some colours
 default:
-    $('div.z-padtop2').each( function()
-    {
+    $('div.z-padtop2').each( function(){
         s = new Story();
         s.fromString(this);
     } );
 }
-

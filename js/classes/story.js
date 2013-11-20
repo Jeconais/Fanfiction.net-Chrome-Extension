@@ -10,7 +10,7 @@
 function Story(s)
 {
     this.data = s;
-};
+}
 
 Story.prototype.build = function(withAuthor)
 {
@@ -35,7 +35,7 @@ Story.prototype.buildContainer = function(container, withAuthor)
             .attr('href','/u/'+this.data.author_id+'/'+this.data.safe_penname)
             .html(this.data.penname);
     rLink = $('<a></a>')
-            .attr('href','/r/'+this.data.id)
+            .attr('href','/r/'+this.data.id+'/')
             .html(' reviews')
             .addClass('reviews');
 
@@ -50,7 +50,7 @@ Story.prototype.buildContainer = function(container, withAuthor)
     }
 
     return container;
-}
+};
 
 Story.prototype.buildDetails = function(container)
 {
@@ -77,10 +77,10 @@ Story.prototype.buildDetails = function(container)
     // get the updated string
     updated = this.buildDateString(this.data.date_updated, 'Updated');
 
-    if (post[1] !== null)
-    {
-        container.css(post[1]);
-    }
+    // if (post[1] !== null)
+    // {
+    //     container.css(post[1]);
+    // }
 
     if (updated[1] !== null)
     {
@@ -112,9 +112,12 @@ Story.prototype.buildDetails = function(container)
 
     // and return
     return container;
-}
+};
 Story.prototype.buildDateString = function(time, matchText)
 {
+
+    time = parseInt(time, 10);
+
     // get today's date in yyyy-mm-dd format
     var tDate = new Date();
     tDate.setHours(0);
@@ -131,24 +134,15 @@ Story.prototype.buildDateString = function(time, matchText)
     yDate.setSeconds(0);
     yDate.setMilliseconds(0);
 
-    
-
     // get the date Posted
-    var matchDate = new Date();
-    matchDate.setTime(time);
-    matchDate.setHours(0);
-    matchDate.setMinutes(0);
-    matchDate.setSeconds(0);
-    matchDate.setMilliseconds(0);
+    var matchDate = new Date(time);
 
-    
     // was it today's date?
     if (matchDate.toDateString() == tDate.toDateString())
     {
         return [matchText+': Today', storyData.todayCss];
     }
 
-    
     // see if it was posted yesterday
     if (matchDate.toDateString() === yDate.toDateString())
     {
@@ -194,21 +188,32 @@ Story.prototype.formatNumber = function (num)
     }
     // number to large for this shitty function
     return num;
-}
+};
+
+
+/**
+ * Build a new container from the string contained in a list on a Community type page
+ * @param  {Element} el
+ * @return {void}
+ */
 Story.prototype.fromString = function(el)
 {
     html = $(el).html();
 
-    // get the updated string
-    u = html.match(/Updated: ([0-9]+)-([0-9]+)-([0-9]+)/i);
+    // get the timespans
+    timeSpans = $(el).find('span[data-xutime]');
 
-    if (u !== null)
+    // check we have two valid ones
+    if (timeSpans.length === 2)
     {
-        // get the date string
-        r = this.matchDate(u, 'Updated');
 
-        // replace into the html
-        html = html.replace(u[0], r[0]);
+        // first handle the updated in hours code.
+        var updated = timeSpans.get(0);
+
+        var updatedTime = $(updated).attr('data-xutime');
+
+        // get the date string
+        r = this.buildDateString(updatedTime * 1000, 'Updated');
 
         // if we have css, apply it
         if (r[1] !== null)
@@ -219,32 +224,18 @@ Story.prototype.fromString = function(el)
         }
     }
 
-    // published
-    u = html.match(/Published: ([0-9]+)-([0-9]+)-([0-9]+)/i);
-    if (u !== null)
-    {
-        r = this.matchDate(u, 'Published');
-
-        // replace into the html
-        html = html.replace(u[0], r[0]);
-
-        // if we have css, apply it
-        if (r[1] !== null)
-        {
-            r[1]['border-right'] = "1px solid black";
-            $(el).parent().parent().css(r[1]);
-        }
-    }
-
     // get the number of chapters and reviews
     c = html.match(/Chapters: ([0-9]+)/i);
-    r = html.match(/Reviews: ([0-9]+)/i);
+    r = html.match(/Reviews: ([0-9,]+)/i);
 
     // if both numbers work, add a reviews per chapter to each one
     if (c !== null && r !== null)
     {
-        chapters = parseInt(c[1]);
-        reviews  = parseInt(r[1]);
+        cCount = c[1];
+        rCount = r[1];
+        rCount = rCount.replace(',', '');
+        chapters = parseInt(cCount, 10);
+        reviews  = parseInt(rCount, 10);
 
         rpc = Math.round(reviews / chapters);
 
@@ -256,37 +247,8 @@ Story.prototype.fromString = function(el)
 
     // reset the html
     $(el).html(html);
-}
-Story.prototype.matchDate = function(matches, matchText)
-{
-    // if it's not a valid regex, then return
-    if (matches.length < 4)
-    {
-        return ['', null];
-    }
+};
 
-    // get the year
-    year = parseInt(matches[3]);
-
-    // IIRC, the site started around 95, so 80 is easily enough
-    if (year > 80)
-    {
-        year = 1900+year;
-    }
-    else
-    {
-        year = 2000+year;
-    }
-
-    month = parseInt(matches[1]);
-    day = parseInt(matches[2]);
-
-    // make a date object of the matches
-    aDate = new Date(year, month-1, day);
-    
-    // get the date posted string
-    return this.buildDateString(aDate.getTime(), matchText);
-}
 Story.prototype.getDateString = function(year, month, day, t)
 {
     // month to textural date
@@ -294,9 +256,9 @@ Story.prototype.getDateString = function(year, month, day, t)
 
     // add a date extension
     switch(day)
-    {   
-    case 1: 
-    case 21: 
+    {
+    case 1:
+    case 21:
     case 31:
         ext = 'st';
         break;
@@ -309,11 +271,11 @@ Story.prototype.getDateString = function(year, month, day, t)
     default:
         ext = 'th';
         break;
-    }   
+    }
 
     // return the date string
-    return t+": "+day+'<sup>'+ext+'</sup> '+months[month] + ' '+year;
-}
+    return t+": "+day+'<sup>'+ext+'</sup> '+months[month] +' '+year;
+};
 
 
 var storyData = {

@@ -1,25 +1,46 @@
 {
     "name": "fanfiction.net enhancer",
-    "version": "2.1",
+    "version": "2",
+    "manifest_version": 2,
     "description": "Make ff.net a little easier to use.",
-    "permissions": ["http://www.fanfiction.net/"],
-    "content_scripts": 
+    "permissions": ["https://www.fanfiction.net/"],
+    "content_scripts":
     [{
-        "matches": ["http://www.fanfiction.net/*"],
-        "js": ["jquery.js",
-               "classes/urlParse.js",
-               "classes/storage.js",
-               "classes/story.js",
-               "classes/evalHandler.js",
-               "classes/storySorter.js",
-               "classes/sortLinks.js",
-               "classes/profile.js",
-               "classes/config.js",
-               "classes/runOfSite.js",
-               "init.js"
-               ],
-        "css": ["css/config.css"],       
+        "matches": ["https://www.fanfiction.net/*"],
+        "js": [ "js/classes/storage.js",
+                "js/classes/config.js",
+                "js/jquery.js",
+                "js/jquery-ui.js",
+                "js/classes/urlParse.js",
+                "js/classes/story.js",
+                "js/classes/evalHandler.js",
+                "js/classes/storySorter.js",
+                "js/classes/sortLinks.js",
+                "js/classes/profile.js",
+                "js/classes/runOfSite.js",
+                "js/profileHide.js"
+                ],
+        "run-at": ["document_start"]
+    },{
+        "matches": ["https://www.fanfiction.net/*"],
+        "js": [ "js/init.js"],
+        "css": ["css/config.css", "css/jquery-ui.css"],
         "run-at": ["document_idle"]
-    }
-    ]
+    }],
+    "web_accessible_resources" : ["images/animated-overlay.gif",
+                                  "images/ui-bg_flat_10_000000_40x100.png",
+                                  "images/ui-bg_glass_65_ffffff_1x400.png",
+                                  "images/ui-bg_highlight-soft_75_ffe45c_1x100.png",
+                                  "images/ui-icons_ef8c08_256x240.png",
+                                  "images/ui-bg_diagonals-thick_18_b81900_40x40.png",
+                                  "images/ui-bg_glass_100_f6f6f6_1x400.png",
+                                  "images/ui-bg_gloss-wave_35_f6a828_500x100.png",
+                                  "images/ui-icons_222222_256x240.png",
+                                  "images/ui-icons_ffd27a_256x240.png",
+                                  "images/ui-bg_diagonals-thick_20_666666_40x40.png",
+                                  "images/ui-bg_glass_100_fdf5ce_1x400.png",
+                                  "images/ui-bg_highlight-soft_100_eeeeee_1x100.png",
+                                  "images/ui-icons_228ef1_256x240.png",
+                                  "images/ui-icons_ffffff_256x240.png"]
+
 }
